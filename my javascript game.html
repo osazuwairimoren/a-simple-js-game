@@ -5,20 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>my game</title>
+    <style>
+        #centerGame{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 </head>
-<body >
+<body>
+    <div id="centerGame">
     <p id="run">a game</p>
     <input type="button" id="startBtn" value="start" onclick="startGame()">
 	<br> <br>
-    <canvas id="draw" width="300px" height="200px" 
-    style="background-color: white; border: 0.1rem solid black;">
-    </canvas>
-    <br> <br>
-    <button type="button" id="moveUp" style="display: none;"> up</button>
-    <button type="button" id="moveDown" style="visibility: hidden;">down</button>
-    <br><br>
-    <h5 id="score" style="margin-bottom: 0;">0</h5>
-    <hr width="300px" style="margin-left: 0;">
+        <canvas id="draw" width="300px" height="200px" 
+        style="background-color: white; border: 0.1rem solid black; ">
+        </canvas>
+        <br> <br>
+        <button type="button" id="moveUp" style="display: none;"> up</button>
+        <button type="button" id="moveDown" style="visibility: hidden;">down</button>
+        <br><br>
+        <span> your score is </span>
+        <h5 id="score" style="margin-bottom: 0; display: inline;"> 0 </h5> 
+        <hr width="300px" style="margin-left: 0; float: right;">
+    </div>
     <script> 
     function startGame() {
         // fixing a small bug
@@ -60,9 +73,16 @@
         let player = new gameObjects(100,150, 20, 20, 'black')
         let obstacles = new gameObjects(280, 150 - rand + 20, 20, rand, 'grey')
         let time = 500;
-        let score = Number(document.getElementById('score').innerHTML)
+        let score =  Number(document.getElementById('score').innerHTML)
         // increase the speed as the score increases
-
+        function increaseSpeed() {
+            if (score > 5){
+                time = 50
+            }
+            else if(score > 20){
+                time = 10
+            }
+        }
         // move player
         player.upMovement = function() {
             let upBtn = document.getElementById('moveUp')
@@ -78,13 +98,6 @@
                 setTimeout(function(){document.getElementById('moveDown').click();}, time + 500)
             })
         }  
-        // move up if player clicks the up arrow function
-        function upArrowFunction(event) {
-            let upArrow = event.keyCode
-            if (upArrow == 38){
-                document.getElementById('moveUp').click()
-            }
-        };
         // move plaver down automatically
         player.downMovement = function() {
             let downBtn = document.getElementById('moveDown')
@@ -100,14 +113,14 @@
         }
         // move obatacles
         obstacles.move = function() {
-            let obstaclesX = obstacles.x + 20;
+            let obstaclesX = obstacles.x + 5;
             function clearObstacles(){
-                ctx.clearRect(obstaclesX - 20, 150 - rand + 20, 20, rand)
+                ctx.clearRect(obstaclesX - 5, 150 - rand + 20, 20, rand)
             }
             obstacles.draw();
             obstacles.x = obstacles.x - obstacles.width;
             setTimeout(clearObstacles, time)
-            console.log('moved')
+            setTimeout(clearObstacles, time)
             if ((obstacles.x == player.x - 20 ) && ((obstacles.y + rand - 20) == player.y )){
                 dectectHit();
             }
@@ -134,18 +147,17 @@
         }
         // respawn obstacle
         function respawnObs() {
-            document.getElementById('score').innerText = `your score is ${score + 1}`
-            clearInterval(myInterval)
-            
+            document.getElementById('score').innerHTML = score++
+            obstacles.x = 280
         }
-       
         ground();
         player.draw();
         player.upMovement();
         player.downMovement();
-        upArrowFunction(event);
+        increaseSpeed();
         var myInterval = setInterval(obstacles.move, time);
     }
+    //startGame();
    </script>
 </body>
 </html>
