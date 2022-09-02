@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>my game</title>
+        <link rel="stylesheet" href="./style.css" />
+        <script src="./script.js"></script>
+    </head>
+    <body>
+        <div id="centerGame">
+            <p id="run">a game</p>
+            <input
+                type="button"
+                id="startBtn"
+                value="start"
+                onclick="startGame()"
+            />
+            <br />
+            <br />
+            <canvas
+                id="draw"
+                width="300px"
+                height="200px"
+                style="background-color: white; border: 0.1rem solid black"
+            >
+            </canvas>
+            <br />
+            <br />
+            <button type="button" id="moveUp" style="display: none">up</button>
+            <button type="button" id="moveDown" style="visibility: hidden">
+                down
+            </button>
+            <br /><br />
+            <span> your score is </span>
+            <h5 id="score" style="margin-bottom: 0; display: inline">0</h5>
+            <hr width="300px" />
+        </div>
+        <br /><br />
+        <span> Coded by </span>
+        <a href="https://github.com/osazuwairimoren" target="_blank"
+            >Osazuwa Irimoren</a
+        >.
+    </body>
+</html>
